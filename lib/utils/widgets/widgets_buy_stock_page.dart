@@ -16,7 +16,7 @@ Widget buyStockDetailContainer(
     width: MediaQuery.of(context).size.width * 0.88,
     // padding: const EdgeInsets.all(5),
     decoration: const BoxDecoration(
-      color: Colors.grey,
+      color: Color.fromARGB(255, 80, 79, 79),
       // color: Color.fromARGB(255, 60, 60, 60),
       borderRadius: BorderRadius.all(Radius.circular(8)),
     ),
@@ -78,9 +78,9 @@ Widget buyStockScndParent(
 
 InputDecoration buyStocTextfieldDecor({Widget? prefixW, required String text}) {
   return InputDecoration(
-    // hintText: "Amount",
-
-    prefix:noramlText(text),
+    hintText: text,
+    hintStyle: TextStyle(color: Colors.grey),
+    // prefix: noramlText(text),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: const BorderSide(color: Color.fromARGB(255, 204, 220, 232)),
@@ -89,13 +89,11 @@ InputDecoration buyStocTextfieldDecor({Widget? prefixW, required String text}) {
       borderRadius: BorderRadius.circular(10),
       borderSide: const BorderSide(color: Color.fromARGB(255, 204, 220, 232)),
     ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Color.fromARGB(255, 204, 220, 232)),
+    focusedBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.transparent),
     ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Color.fromARGB(255, 204, 220, 232)),
+    enabledBorder: const UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.transparent),
     ),
   );
 }

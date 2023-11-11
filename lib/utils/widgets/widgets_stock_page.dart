@@ -19,7 +19,11 @@ Widget coinDetailContainer(
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           CircleAvatar(radius: 35, backgroundColor: Colors.grey,child: cImage,),
+            CircleAvatar(
+              radius: 35,
+              backgroundColor: Colors.grey,
+              child: cImage,
+            ),
             const SizedBox(width: 10),
             Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -27,7 +31,10 @@ Widget coinDetailContainer(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   hbox,
-                  Text(cSymbol, style: coinTextstyle(true)),
+                  Text(cSymbol,
+                      style: coinTextstyle(
+                        true,
+                      )),
                   Text(cName, style: coinTextstyle(false)),
                 ],
               ),
@@ -35,12 +42,12 @@ Widget coinDetailContainer(
           ],
         ),
         Padding(
-         padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 8),
           child: Column(
             children: [
               hbox,
               Text(cCurrentPrice, style: coinTextstyle(true)),
-              Text(cIncrement, style: coinTextstyle(false)),
+              Text(cIncrement, style: coinTextstyle(false, true)),
             ],
           ),
         )
@@ -53,7 +60,7 @@ Widget overviewContainer(BuildContext context,
     {Color? color, required String text, bool? click}) {
   return Container(
     height: MediaQuery.of(context).size.height * 0.045,
-    width: MediaQuery.of(context).size.width * 0.18,
+    width: MediaQuery.of(context).size.width * 0.2,
     decoration: BoxDecoration(
       color: color,
       // border: Border.all(),
@@ -93,10 +100,28 @@ Widget perfomanceText(String text, {bool? isNum}) {
   );
 }
 
-TextStyle coinTextstyle([bool? istrue]) {
-  return istrue == true
-      ? const TextStyle(
-          fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500)
-      : const TextStyle(
-          fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
+coinTextstyle([bool? istrue, bool isG = false]) {
+  if (istrue == true && isG == false) {
+    return const TextStyle(
+        fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500);
+  } else if (istrue == false && isG == true) {
+    return const TextStyle(
+        fontSize: 16, color: Colors.green, fontWeight: FontWeight.w300);
+  } else {
+    return const TextStyle(
+        fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
+  }
 }
+
+
+// return istrue == true
+//       ? const TextStyle(
+//           fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500)
+//       : const TextStyle(
+//           fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
+//  if (istrue == true && isG == false) {
+//    return  TextStyle(
+//           fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500);
+//   }else if(istrue == true && isG == true){
+//   return TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
+//   }

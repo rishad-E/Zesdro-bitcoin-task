@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zesdro_task/controller/stock_controller.dart';
@@ -40,7 +37,6 @@ class StockPage extends StatelessWidget {
           child: Consumer<StockControllerClass>(
             builder: (context, data, child) {
               final value = data.bitcoin![0];
-              // log(data.amoundtoUSD(value.currentPrice!).toString());
               return Column(
                 children: [
                   coinDetailContainer(
@@ -48,9 +44,11 @@ class StockPage extends StatelessWidget {
                     cImage: Image.network(value.image.toString()),
                     cSymbol: value.symbol.toString(),
                     cName: value.name.toString(),
-                    cCurrentPrice:data.amoundtoUSD(value.currentPrice!).toString(),
-                    cIncrement: "cIncrement",
-                    
+                    cCurrentPrice:
+                        data.amoundtoUSD(value.currentPrice!).toString(),
+                    cIncrement: data.currentIncre(
+                        pchange: value.priceChangePercentage24H!,
+                        pchangePer: value.priceChangePercentage24H!),
                   ),
                   Container(
                     height: 300,
@@ -60,7 +58,6 @@ class StockPage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 20, right: 22),
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: double.infinity,
-                    // color: Colors.red,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,8 +91,12 @@ class StockPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            perfomanceText("36.50", isNum: true),
-                            perfomanceText("37.50", isNum: true)
+                            perfomanceText(
+                                data.amoundtoUSD(value.low24H!, false),
+                                isNum: true),
+                            perfomanceText(
+                                data.amoundtoUSD(value.high24H!, false),
+                                isNum: true)
                           ],
                         ),
                         Row(
@@ -108,8 +109,9 @@ class StockPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            perfomanceText("25.05", isNum: true),
-                            perfomanceText("41.90", isNum: true)
+                            perfomanceText(value.atl.toString(), isNum: true),
+                            perfomanceText(data.amoundtoUSD(value.ath!, false),
+                                isNum: true)
                           ],
                         ),
                         Container(
@@ -120,7 +122,12 @@ class StockPage extends StatelessWidget {
                           child: TextButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const BuyStockPage()));
+                                  builder: (context) =>  BuyStockPage(
+                                        image: value.image.toString(),
+                                        cSymbol: value.name.toString(),
+                                        currentPrice: data.amoundtoUSD(value.currentPrice!),
+                                        cPrice: data.amoundtoDouble(value.currentPrice!),
+                                      )));
                             },
                             child: const Center(
                               child: Text(
