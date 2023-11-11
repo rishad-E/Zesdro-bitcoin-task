@@ -56,6 +56,41 @@ Widget coinDetailContainer(
   );
 }
 
+Widget graphContainer(BuildContext context,
+    {Color? color, required String text, bool? click}) {
+  return Container(
+    height: MediaQuery.of(context).size.height * 0.04,
+    width: MediaQuery.of(context).size.width * 0.13,
+    decoration: BoxDecoration(
+      color: color,
+      // border: Border.all(),
+      borderRadius: const BorderRadius.all(Radius.circular(5)),
+    ),
+    child: Align(
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: click == true
+            ? const TextStyle(color: Colors.white, fontWeight: FontWeight.w500)
+            : const TextStyle(color: Color.fromARGB(255, 184, 183, 183)),
+      ),
+    ),
+  );
+}
+Widget graphParentContainer(BuildContext context, Widget child) {
+  return Container(
+    height: MediaQuery.of(context).size.height * 0.04,
+    width: MediaQuery.of(context).size.width * 0.75,
+    padding: const EdgeInsets.all(5),
+    decoration: const BoxDecoration(
+      color: Color.fromARGB(255, 60, 60, 60),
+      borderRadius: BorderRadius.all(Radius.circular(5)),
+    ),
+    child: child,
+  );
+}
+
+
 Widget overviewContainer(BuildContext context,
     {Color? color, required String text, bool? click}) {
   return Container(

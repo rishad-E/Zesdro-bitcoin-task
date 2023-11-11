@@ -52,7 +52,48 @@ class StockPage extends StatelessWidget {
                   ),
                   Container(
                     height: 300,
-                    // color: Colors.green,
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(5,10,5,0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            graphParentContainer(
+                              context,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  graphContainer(context, text: "1D"),
+                                  graphContainer(context, text: "1W"),
+                                  graphContainer(context, text: "3M"),
+                                  graphContainer(
+                                    context,
+                                    text: "6M",
+                                    color: Colors.black,
+                                    click: true,
+                                  ),
+                                  graphContainer(context, text: "About")
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.04,
+                              width: MediaQuery.of(context).size.width * 0.11,
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 60, 60, 60),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: const Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(Icons.fullscreen)),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 20, right: 22),
@@ -122,11 +163,13 @@ class StockPage extends StatelessWidget {
                           child: TextButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>  BuyStockPage(
+                                  builder: (context) => BuyStockPage(
                                         image: value.image.toString(),
                                         cSymbol: value.name.toString(),
-                                        currentPrice: data.amoundtoUSD(value.currentPrice!),
-                                        cPrice: data.amoundtoDouble(value.currentPrice!),
+                                        currentPrice: data
+                                            .amoundtoUSD(value.currentPrice!),
+                                        cPrice: data.amoundtoDouble(
+                                            value.currentPrice!),
                                       )));
                             },
                             child: const Center(
