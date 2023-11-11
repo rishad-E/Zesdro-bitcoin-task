@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zesdro_task/utils/constants/const.dart';
 
 Widget buyStockBoldText(String text) {
   return Text(
@@ -79,7 +78,7 @@ Widget buyStockScndParent(
 InputDecoration buyStocTextfieldDecor({Widget? prefixW, required String text}) {
   return InputDecoration(
     hintText: text,
-    hintStyle: TextStyle(color: Colors.grey),
+    hintStyle: const TextStyle(color: Colors.grey),
     // prefix: noramlText(text),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
