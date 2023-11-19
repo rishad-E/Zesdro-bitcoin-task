@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zesdro_task/controller/stock_controller.dart';
-import 'package:zesdro_task/controller/stock_splash_controller.dart';
+import 'package:get/get.dart';
+import 'package:zesdro_task/view/stock_page_home.dart';
 import 'package:zesdro_task/view/stock_splash_page.dart';
 
 void main() {
@@ -13,16 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => StockSplashProvider()),
-        ChangeNotifierProvider(create: (context) => StockControllerClass())
+    return GetMaterialApp(
+      getPages: [
+        GetPage(
+          name: '/stock_page',
+          page: () => const StockPage(),
+        ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(useMaterial3: true),
-        home: const StockSplashScreen(),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
+      home: const StockSplashScreen(),
     );
   }
 }

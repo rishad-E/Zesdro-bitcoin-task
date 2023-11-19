@@ -149,14 +149,3 @@ coinTextstyle([bool? istrue, bool isG = false]) {
 }
 
 
-// return istrue == true
-//       ? const TextStyle(
-//           fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500)
-//       : const TextStyle(
-//           fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
-//  if (istrue == true && isG == false) {
-//    return  TextStyle(
-//           fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500);
-//   }else if(istrue == true && isG == true){
-//   return TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w300);
-//   }

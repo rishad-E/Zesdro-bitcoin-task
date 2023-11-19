@@ -1,28 +1,46 @@
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zesdro_task/model/stock_model.dart';
 import 'package:zesdro_task/service/stock_coin_service.dart';
 
-class StockControllerClass with ChangeNotifier {
+class StockController extends GetxController {
   List<User>? bitcoin;
   double buyAmount = 1;
   double shareAmount = 1;
   TextEditingController controller = TextEditingController();
+  final StockServiceClass _stockService = StockServiceClass();
 
-/* provider function to get all the details from the service class*/
-  Future<void> getBitCoinProvider() async {
-    await StockServiceClass().getBitCoinService().then(
-          (value) => {
-            bitcoin = value,
-          },
-        );
-    notifyListeners();
+  @override
+  void onInit() {
+    super.onInit();
+    _stockService.bitcoinStream.listen((List<User>? data) {
+      bitcoin = data;
+      update();
+    });
+
+    Timer.periodic(const Duration(seconds: 8), (Timer timer) async {
+      bitcoin = await _stockService.getBitCoinData();
+      update();
+    });
   }
 
-/* provider function to calculate the amound (ie amound = current price * shares)*/
+  /* Close the stream controller when not needed */
+  @override
+  void onClose() {
+    _stockService.dispose();
+    super.onClose();
+  }
 
-  amountResult(double cPrice) {
+  /* GetX function to get all the details from the service class */
+  Future<void> getBitCoinController() async {
+    bitcoin = await _stockService.getBitCoinData();
+    update();
+  }
+
+  /* GetX function to calculate the amount (i.e., amount = current price * shares) */
+  String amountResult(double cPrice) {
     if (controller.text.isEmpty) {
       shareAmount = 1;
     } else {
@@ -32,14 +50,12 @@ class StockControllerClass with ChangeNotifier {
     return buyAmount.round().toString();
   }
 
-/* provider function to update the total amound dynamically*/
-
+  /* GetX function to update the total amount dynamically */
   void updateAmoundResult(double cPrice) {
     if (controller.text.isNotEmpty) {
-      // amountResult(cPrice);
       shareAmount = double.parse(controller.text);
       buyAmount = shareAmount * cPrice;
-      notifyListeners();
+      update();
     }
   }
 
@@ -47,29 +63,26 @@ class StockControllerClass with ChangeNotifier {
     shareAmount = 1;
     buyAmount = 1;
     controller.clear();
-    notifyListeners();
+    update();
   }
 
-/* provider function to convert the amound to double for ease of calculation */
-
-  amoundtoDouble(double value) {
+  /* GetX function to convert the amount to double for ease of calculation */
+  double amoundtoDouble(double value) {
     double exchangeRate = 83.31;
     double usd = value / exchangeRate;
-    log(usd.toString());
     return usd.round().toDouble();
   }
 
-/* provider function to convert the amound to USD for ease of calculation */
-  amoundtoUSD(double value, [bool isPer = true]) {
+  /* GetX function to convert the amount to USD for ease of calculation */
+  String amoundtoUSD(double value, [bool isPer = true]) {
     double exchangeRate = 83.31;
     double usd = value / exchangeRate;
-    String amound = "\$${usd.toStringAsFixed(2)}";
+    String amount = "\$${usd.toStringAsFixed(2)}";
     String pamound = usd.toStringAsFixed(2);
-    return isPer == true ? amound : pamound;
+    return isPer == true ? amount : pamound;
   }
 
-
-/* provider function to calculate the current price increment */
+  /* GetX function to calculate the current price increment */
   String currentIncre({required double pchangePer, required double pchange}) {
     double exchangeRate = 83.31;
     double usd = pchange / exchangeRate;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -7,20 +8,29 @@ import 'package:zesdro_task/utils/constants/api.dart';
 class StockServiceClass {
   Dio dio = Dio();
 
-  Future<List<User>?> getBitCoinService() async {
+  final StreamController<List<User>> _bitcoinStreamController =
+      StreamController<List<User>>();
+
+  Stream<List<User>> get bitcoinStream => _bitcoinStreamController.stream;
+
+  Future<List<User>?> getBitCoinData() async {
     try {
       Response response = await dio
           .get(Apis().baseUrl, queryParameters: {"vs_currency": "usd"});
       if (response.statusCode == 200) {
-        //  log(response.data.toString());
         List<dynamic> data = response.data;
         final res = data.map((e) => User.fromJson(e)).toList();
         log(res.toString());
+        _bitcoinStreamController.add(res);
         return res;
       }
     } catch (e) {
-      log(e.toString());
+      log(e.toString(),name: 'service error');
     }
     return null;
+  }
+
+  void dispose() {
+    _bitcoinStreamController.close();
   }
 }

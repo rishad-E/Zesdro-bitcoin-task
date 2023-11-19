@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'package:zesdro_task/controller/stock_controller.dart';
 import 'package:zesdro_task/utils/constants/const.dart';
 import 'package:zesdro_task/utils/widgets/widgets_stock_page.dart';
@@ -34,9 +36,14 @@ class StockPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Consumer<StockControllerClass>(
-            builder: (context, data, child) {
-              final value = data.bitcoin![0];
+          child: GetBuilder<StockController>(
+            init: StockController(),
+            builder: (controller) {
+              if (controller.bitcoin == null ||controller.bitcoin!.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final value = controller.bitcoin![0];
+              log(value.currentPrice.toString(),name: 'current price,home');
               return Column(
                 children: [
                   coinDetailContainer(
@@ -44,16 +51,15 @@ class StockPage extends StatelessWidget {
                     cImage: Image.network(value.image.toString()),
                     cSymbol: value.symbol.toString(),
                     cName: value.name.toString(),
-                    cCurrentPrice:
-                        data.amoundtoUSD(value.currentPrice!).toString(),
-                    cIncrement: data.currentIncre(
-                        pchange: value.priceChangePercentage24H!,
+                    cCurrentPrice: controller.amoundtoUSD(value.currentPrice!),
+                    cIncrement: controller.currentIncre(
+                        pchange: value.priceChange24H!,
                         pchangePer: value.priceChangePercentage24H!),
                   ),
                   Container(
                     height: 300,
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(5,10,5,0),
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
                     child: Column(
                       children: [
                         Row(
@@ -133,11 +139,11 @@ class StockPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             perfomanceText(
-                                data.amoundtoUSD(value.low24H!, false),
+                                controller.amoundtoUSD(value.low24H!, false),
                                 isNum: true),
                             perfomanceText(
-                                data.amoundtoUSD(value.high24H!, false),
-                                isNum: true)
+                                controller.amoundtoUSD(value.high24H!, false),
+                                isNum: true),
                           ],
                         ),
                         Row(
@@ -151,7 +157,8 @@ class StockPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             perfomanceText(value.atl.toString(), isNum: true),
-                            perfomanceText(data.amoundtoUSD(value.ath!, false),
+                            perfomanceText(
+                                controller.amoundtoUSD(value.ath!, false),
                                 isNum: true)
                           ],
                         ),
@@ -162,15 +169,14 @@ class StockPage extends StatelessWidget {
                           ),
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => BuyStockPage(
-                                        image: value.image.toString(),
-                                        cSymbol: value.name.toString(),
-                                        currentPrice: data
-                                            .amoundtoUSD(value.currentPrice!),
-                                        cPrice: data.amoundtoDouble(
-                                            value.currentPrice!),
-                                      )));
+                              Get.to(() => BuyStockPage(
+                                    image: value.image.toString(),
+                                    cSymbol: value.name.toString(),
+                                    currentPrice: controller
+                                        .amoundtoUSD(value.currentPrice!),
+                                    cPrice: controller
+                                        .amoundtoDouble(value.currentPrice!),
+                                  ));
                             },
                             child: const Center(
                               child: Text(

@@ -1,15 +1,19 @@
 import 'dart:async';
+import 'package:get/get.dart';
+import 'package:zesdro_task/controller/stock_controller.dart';
 
-import 'package:flutter/material.dart';
+class SplashController extends GetxController {
+  /* a reactive or observable variable for navigation */
+  RxBool navigate = false.obs;
 
-import 'package:zesdro_task/view/stock_page_home.dart';
+  void init() {
+    Get.find<StockController>().getBitCoinController();
+    splashTimer();
+  }
 
-class StockSplashProvider with ChangeNotifier {
-  splashTimer(BuildContext context) async {
+  void splashTimer() {
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const StockPage(),
-      ));
+      navigate.value = true;
     });
   }
 }
