@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:zesdro_task/model/stock_model.dart';
 import 'package:zesdro_task/service/stock_coin_service.dart';
 
@@ -64,6 +65,14 @@ class StockController extends GetxController {
     buyAmount = 1;
     controller.clear();
     update();
+  }
+
+  /* GetX function to convert the last updated date in to a date-month-year format */
+  String formatDate(String dateTimeString) {
+
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(dateTime);
+    return formattedDate;
   }
 
   /* GetX function to convert the amount to double for ease of calculation */

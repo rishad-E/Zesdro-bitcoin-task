@@ -1,11 +1,11 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zesdro_task/controller/stock_controller.dart';
 import 'package:zesdro_task/utils/constants/const.dart';
 import 'package:zesdro_task/utils/widgets/widgets_stock_page.dart';
 import 'package:zesdro_task/view/buy_stock_page.dart';
+import 'package:zesdro_task/view/class_linechart_stock_page.dart';
 
 class StockPage extends StatelessWidget {
   const StockPage({super.key});
@@ -39,11 +39,11 @@ class StockPage extends StatelessWidget {
           child: GetBuilder<StockController>(
             init: StockController(),
             builder: (controller) {
-              if (controller.bitcoin == null ||controller.bitcoin!.isEmpty) {
+              if (controller.bitcoin == null || controller.bitcoin!.isEmpty) {
                 return const Center(child: CircularProgressIndicator());
               }
               final value = controller.bitcoin![0];
-              log(value.currentPrice.toString(),name: 'current price,home');
+              log(value.currentPrice.toString(), name: 'current price,home');
               return Column(
                 children: [
                   coinDetailContainer(
@@ -57,7 +57,8 @@ class StockPage extends StatelessWidget {
                         pchangePer: value.priceChangePercentage24H!),
                   ),
                   Container(
-                    height: 300,
+                    // color: Colors.red,
+                    height: MediaQuery.of(context).size.height * 0.35,
                     width: double.infinity,
                     padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
                     child: Column(
@@ -95,9 +96,12 @@ class StockPage extends StatelessWidget {
                               child: const Align(
                                   alignment: Alignment.center,
                                   child: Icon(Icons.fullscreen)),
-                            )
+                            ),
                           ],
-                        )
+                        ),
+                        const Expanded(
+                          child: LineChartStockPage(),
+                        ),
                       ],
                     ),
                   ),
