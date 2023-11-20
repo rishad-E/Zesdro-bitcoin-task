@@ -23,11 +23,18 @@ class StockServiceClass {
         log(res.toString());
         _bitcoinStreamController.add(res);
         return res;
+      } else {
+        throw DioException(
+          requestOptions: RequestOptions(),
+          response: response,
+          error: 'Failed to fetch data',
+        );
       }
     } catch (e) {
-      log(e.toString(),name: 'service error');
+      log(e.toString(), name: 'service error');
+      throw Exception('Couldnot fetch ${e.toString()}');
     }
-    return null;
+    // return null;
   }
 
   void dispose() {

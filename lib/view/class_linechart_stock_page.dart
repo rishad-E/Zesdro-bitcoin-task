@@ -30,27 +30,28 @@ class LineChartStockPage extends StatelessWidget {
                 colors: [
                   Colors.black,
                   Color.fromRGBO(16, 105, 16, 0.294),
+                  Color.fromRGBO(9, 225, 9, 0.286),
                 ],
               ),
             ),
           ),
         ],
-        titlesData:  FlTitlesData(
+        titlesData: const FlTitlesData(
             // show: false,
             bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget:(value, meta) {
-                // return Text("dafj");
-                switch (value.toInt()) {
-                  case 1:
-                    return const Text("april");
-                    // break;
-                  default:
-                  return const Text("data");
-                }
-              },
-            ))
+          showTitles: true,
+          // getTitlesWidget: (value, meta) {
+          //   // return Text("dafj");
+          //   switch (value.toInt()) {
+          //     case 2:
+          //       return const Text("april");
+              
+          //     default:
+          //       return const Text("Janvary");
+          //   }
+          // },
+        ))
             // bottomTitles: SideTitles(
             //     showTitles: true,
             //     getTitlesWidget: (value) {
